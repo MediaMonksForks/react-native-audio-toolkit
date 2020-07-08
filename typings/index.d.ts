@@ -72,9 +72,9 @@ interface PlayerOptions {
 declare class Player extends EventEmitter {
     /**
      * Initialize the player for playback of song in path.
-     * 
+     *
      * @param path Path can be either filename, network URL or a file URL to resource.
-     * @param options 
+     * @param options
      */
     constructor(path: string, options?: PlayerOptions);
 
@@ -82,28 +82,28 @@ declare class Player extends EventEmitter {
      * Prepare playback of the file provided during initialization. This method is optional to call but might be
      * useful to preload the file so that the file starts playing immediately when calling `play()`.
      * Otherwise the file is prepared when calling `play()` which may result in a small delay.
-     * 
+     *
      * @param callback Callback is called with empty first parameter when file is ready for playback with `play()`.
      */
     prepare(callback?: ((err: PlayerError | null) => void)): this;
 
     /**
      * Start playback.
-     * 
+     *
      * @param callback If callback is given, it is called when playback has started.
      */
     play(callback?: ((err: PlayerError | null) => void)): this;
 
     /**
      * Pauses playback. Playback can be resumed by calling `play()` with no parameters.
-     * 
+     *
      * @param callback Callback is called after the operation has finished.
      */
     pause(callback?: ((err: PlayerError | null) => void)): this;
 
     /**
      * Helper method for toggling pause.
-     * 
+     *
      * @param callback Callback is called after the operation has finished. Callback receives Object error as first
      * argument, Boolean paused as second argument indicating if the player ended up playing (`false`)
      * or paused (`true`).
@@ -113,21 +113,21 @@ declare class Player extends EventEmitter {
     /**
      * Stop playback. If autoDestroy option was set during initialization, clears all media resources from memory.
      * In this case the player should no longer be used.
-     * 
-     * @param callback 
+     *
+     * @param callback
      */
     stop(callback?: ((err: PlayerError | null) => void)): this;
 
     /**
      * Stops playback and destroys the player. The player should no longer be used.
-     * 
+     *
      * @param callback Callback is called after the operation has finished.
      */
     destroy(callback?: ((err: PlayerError | null) => void)): void;
 
     /**
      * Seek in currently playing media.
-     * 
+     *
      * @param position Position is the offset from the start.
      * @param callback If callback is given, it is called when the seek operation completes. If another seek
      * operation is performed before the previous has finished, the previous operation gets an error in its
@@ -160,7 +160,7 @@ declare class Player extends EventEmitter {
     /**
      * Get/set the playback speed for audio.
      * Default is `1.0`.
-     * 
+     *
      * NOTE: On Android, this is only supported on Android 6.0+.
      */
     speed: number;
@@ -232,25 +232,25 @@ interface RecorderOptions {
      * Override format. Possible values:
      *   - Cross-platform:  'mp4', 'aac'
      *   - Android only:    'ogg', 'webm', 'amr'
-     * 
+     *
      * (Default: based on filename extension)
      */
     format: string;
 
     /**
      * Override encoder. Android only.
-     * 
+     *
      * Possible values: 'aac', 'mp4', 'webm', 'ogg', 'amr'
-     * 
+     *
      * (Default: based on filename extension)
      */
     encoder: string;
 
     /**
      * Quality of the recording, iOS only.
-     * 
+     *
      * Possible values: 'min', 'low', 'medium', 'high', 'max'
-     * 
+     *
      * (Default: 'medium')
      */
     quality: string;
@@ -262,9 +262,9 @@ interface RecorderOptions {
 declare class Recorder extends EventEmitter {
     /**
      * Initialize the recorder for recording to file in `path`.
-     * 
+     *
      * @param path Path can either be a filename or a file URL (Android only).
-     * @param options 
+     * @param options
      */
     constructor(path: string, options?: RecorderOptions);
 
@@ -272,49 +272,51 @@ declare class Recorder extends EventEmitter {
      * Prepare recording to the file provided during initialization. This method is optional to call but it may be
      * beneficial to call to make sure that recording begins immediately after calling `record()`. Otherwise the
      * recording is prepared when calling `record()` which may result in a small delay.
-     * 
+     *
      * NOTE: Assume that this wipes the destination file immediately.
-     * 
+     *
      * @param callback When ready to record using `record()`, the callback is called with an empty first parameter.
      * Second parameter contains a path to the destination file on the filesystem.
-     * 
+     *
      * If there was an error, the callback is called with an error object as first parameter.
      */
     prepare(callback?: ((err: RecorderError | null, fsPath: string) => void)): this;
 
     /**
      * Start recording to file in `path`.
-     * 
+     *
      * @param callback Callback is called after recording has started or with error object if an error occurred.
      */
     record(callback?: ((err: RecorderError | null) => void)): this;
 
     /**
      * Stop recording and save the file.
-     * 
+     *
      * @param callback Callback is called after recording has stopped or with error object.
      * The recorder is destroyed after calling stop and should no longer be used.
      */
     stop(callback?: ((err: RecorderError | null) => void)): this;
 
     /**
-     * 
-     * @param callback 
+     *
+     * @param callback
      */
     pause(callback?: ((err: RecorderError | null) => void)): this;
 
     /**
-     * 
-     * @param callback 
+     *
+     * @param callback
      */
     toggleRecord(callback?: ((err: RecorderError | null) => void)): this;
 
     /**
      * Destroy the recorder. Should only be used if a recorder was constructed, and for some reason is now unwanted.
-     * 
+     *
      * @param callback Callback is called after the operation has finished.
      */
     destroy(callback?: ((err: RecorderError | null) => void)): void;
+
+    getMaxAmplitude(callback?: ((val: number | null) => number)): void;
 
     /**
      * Get the filesystem path of file being recorded to.

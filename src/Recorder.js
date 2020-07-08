@@ -153,6 +153,10 @@ class Recorder extends EventEmitter {
     RCTAudioRecorder.destroy(this._recorderId, callback);
   }
 
+  getMaxAmplitude(callback = noop) {
+    return RCTAudioRecorder.getMaxAmplitude(this._recorderId, callback);
+  }
+
   get state()       { return this._state;                          }
   get canRecord()   { return this._state >= MediaStates.PREPARED;  }
   get canPrepare()  { return this._state == MediaStates.IDLE;      }
